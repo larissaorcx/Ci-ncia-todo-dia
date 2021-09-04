@@ -11,7 +11,7 @@ a {
 img {
     display: block;
     border-radius: 5px;
-    max-width: 100%;
+    width: 100%;
 }
 
 /* Estrutura */
@@ -27,6 +27,28 @@ img {
 
     grid-template-columns: minmax(100px, 1fr) 3fr 300px;
 }
+
+@media (max-width: 1200px) {
+    .Grid {
+        grid-template-areas:
+            'header header header'
+            'sidenav main main'
+            'sidenav aside aside'
+            'footer footer footer';
+    }
+}
+@media (max-width: 760px) {
+    .Grid {
+        grid-template-columns: 100%;
+        grid-template-areas:
+            'header '
+            'sidenav '
+            'main '
+            'aside'
+            'footer ';
+    }
+}
+
 .titulo-logo {
     display: flex;
     align-items: center;
@@ -35,6 +57,18 @@ img {
 .Logo {
     width: 150px;
     max-width: 50px;
+}
+.Logo :hover {
+    animation: rotacao 0.15s ease-in-out alternate;
+}
+
+@keyframes rotacao {
+    from {
+        transform: rotate(90deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .header {
@@ -48,7 +82,10 @@ img {
 .navegacao-header {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px;
+}
+
+.navegacao-header li + li {
+    margin-left: 10px;
 }
 .navegacao-header li {
     display: block;
@@ -57,13 +94,33 @@ img {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     transition: background-color 0.2s;
+    transition: width 0.5s;
 }
 .navegacao-header li:hover {
     background: rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    text-align: center;
+    width: 100px;
 }
 .navegacao-header a {
     color: white;
 }
+
+@media (max-width: 760px) {
+    .header {
+        grid-template-columns: auto;
+    }
+    .Logo {
+        margin-bottom: 20px;
+    }
+    .navegacao nav a {
+        font-size: 1em;
+    }
+    .header li + li {
+        margin-left: 10px;
+    }
+}
+
 /* Conteudo site */
 .content {
     grid-area: main;
@@ -75,12 +132,18 @@ img {
     gap: 30px;
 }
 
+@media (max-width: 600px) {
+    .content {
+        grid-template-columns: auto;
+    }
+}
 .col-wide {
     grid-column: 1 / -1;
 }
 .img1 {
     grid-row: span 2;
     align-self: end;
+    height: 250px;
 }
 .img2 {
     align-self: end;
@@ -90,6 +153,7 @@ p {
     line-height: 1.6;
     letter-spacing: -0.005em;
     color: rgba(0, 0, 0, 0.7);
+    text-align: justify;
 }
 .informacoes p + p {
     margin-top: 30px;
@@ -127,10 +191,43 @@ p {
 }
 
 .destaque {
-    font-size: 0.875em;
+    font-size: 0.8em;
     color: plum;
-    max-width: 16em;
+    max-width: 20em;
 }
+
+.citacao,
+.atributos {
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 0px rgba(44, 44, 44, 0.15);
+    background: linear-gradient(135deg, purple, plum);
+    align-self: start;
+}
+
+.citacao p {
+    font-size: 1.5em;
+    font-style: italic;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    color: white;
+}
+
+blockquote cite {
+    color: white;
+}
+
+.atributos li {
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1em;
+    padding: 15px;
+}
+.atributos li + li {
+    border-top: 2px solid plum;
+}
+
 /* Menu lateral */
 
 .sidenav {
@@ -149,12 +246,54 @@ p {
     max-width: 90px;
     background-color: white;
 
-    /* background: white; */
-
     padding: 20px;
     border-radius: 5px;
     box-shadow: 8px 18px 23px 4px rgba(44, 44, 44, 0.15);
     transition: background-color 0.8s ease-out;
+}
+.sidenav a img {
+    transition: width 0.2s ease-in;
+}
+
+.sidenav a img:hover {
+    width: 100px;
+}
+
+@keyframes seta {
+    from {
+        right: 30px;
+    }
+    to {
+        right: 20px;
+    }
+}
+
+@media (max-width: 760px) {
+    .sidenav ul {
+        display: flex;
+    }
+    .sidenav ul li {
+        flex: 1 0 60px;
+    }
+    .sidenav {
+        position: relative;
+        padding: 0 30px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+    .sidenav li a {
+        margin: 30px 30px 30px 0;
+    }
+
+    .sidenav ::after {
+        content: '→';
+        position: absolute;
+        top: 5px;
+        right: 30px;
+        color: rgba(0, 0, 0, 0.3);
+        animation: seta 0.5s ease-in 0s infinite alternate;
+    }
 }
 
 /* anuncios */
@@ -167,6 +306,11 @@ p {
 
     padding: 30px;
     gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.anuncio2 {
+    width: 100%;
+    height: 100%;
 }
 .footer {
     grid-area: footer;
